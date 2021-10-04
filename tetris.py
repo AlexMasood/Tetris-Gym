@@ -3,6 +3,8 @@ from gameControl import GameControl
 from pygame.constants import KEYDOWN
 from board import Board
 from shape import Shape
+import random
+import time
 class Tetris:
     def __init__(self):
         pygame.init()
@@ -45,23 +47,34 @@ class Tetris:
 
     def view(self):
 
-        
-        clearedRows = self.board.rowsCleared
+        clearedRows = self.gameControl.getBoard().rowsCleared
         self.linesText = self.font.render('Lines:  '+str(clearedRows), True, (255,255,255))
         self.scoreText = self.font.render('Score:  '+str(self.gameControl.score), True, (255,255,255))
         self.levelText = self.font.render('Level:  '+str(self.gameControl.level), True, (255,255,255))
 
 
-        width,height = self.gameControl.getBoard().getDimensions
+        width,height = self.gameControl.getBoard().getDimensions()
         self.surface.fill((0,0,0))
         self.gameControl.getBoard().drawBoard(self.surface)
-        pygame.draw.rect(self.surface, (102,102,102), (width,0,150,height))
-        self.gameControl.getShape().drawNextShape(self.surface,width,height)
+        
+        #self.gameControl.getShape().drawNextShape(self.surface,width,height)
         self.surface.blit(self.nextText, (width + 35, 5))
         self.surface.blit(self.linesText, (width + 20, 150))
         self.surface.blit(self.scoreText, (width + 20, 170))
         self.surface.blit(self.levelText, (width + 20, 190))
-    
-        self.gameControl.getShape().drawShape(self.surface)
+        if(self.gameControl.getShape() != None):
+            pygame.draw.rect(self.surface, (102,102,102), (width,0,150,height))
+            self.gameControl.getShape().drawNextShape(self.surface,width,height)
+            self.gameControl.getShape().drawShape(self.surface)
+        
         pygame.display.flip()
+
+
+t = Tetris()
+t.gameControl.update()
+while True:
+    t.action(random.randint(0,4))
+    t.gameControl.update()
+    t.view()
+
     

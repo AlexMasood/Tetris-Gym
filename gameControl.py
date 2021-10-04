@@ -10,6 +10,7 @@ class GameControl():
         self.board = Board()
         self.width,self.height  = self.board.getDimensions()
         self.shape = Shape(self.width)
+        
         self.loopNum = 0
         self.clearedRows = 0
         self.score = 0
