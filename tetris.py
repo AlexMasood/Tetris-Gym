@@ -1,8 +1,5 @@
 import pygame
 from gameControl import GameControl
-from pygame.constants import KEYDOWN
-import random
-import time
 class Tetris:
     def __init__(self):
         pygame.init()
@@ -36,6 +33,7 @@ class Tetris:
                 shape.moveShapeDown()
             board.addPlacedShapesToBoard(shape)
             self.gameControl.newShape = True
+        self.gameControl.update()
 
     def evaluate(self):
         return self.gameControl.score
@@ -58,7 +56,6 @@ class Tetris:
         self.surface.fill((0,0,0))
         self.gameControl.getBoard().drawBoard(self.surface)
         
-        #self.gameControl.getShape().drawNextShape(self.surface,width,height)
         pygame.draw.rect(self.surface, (102,102,102), (width,0,150,height))
         self.surface.blit(self.nextText, (width + 35, 5))
         self.surface.blit(self.linesText, (width + 20, 150))
