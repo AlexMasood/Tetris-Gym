@@ -1,8 +1,6 @@
 import pygame
 from gameControl import GameControl
 from pygame.constants import KEYDOWN
-from board import Board
-from shape import Shape
 import random
 import time
 class Tetris:
@@ -40,10 +38,13 @@ class Tetris:
             self.gameControl.newShape = True
 
     def evaluate(self):
-        pass
+        return self.gameControl.score
     
     def observer(self):
-        pass
+        board = self.gameControl.getBoard()
+        shape = self.gameControl.getShape()
+        simpBoard = board.simplifyBoard(shape)
+        return simpBoard
 
     def view(self):
 
@@ -58,23 +59,14 @@ class Tetris:
         self.gameControl.getBoard().drawBoard(self.surface)
         
         #self.gameControl.getShape().drawNextShape(self.surface,width,height)
+        pygame.draw.rect(self.surface, (102,102,102), (width,0,150,height))
         self.surface.blit(self.nextText, (width + 35, 5))
         self.surface.blit(self.linesText, (width + 20, 150))
         self.surface.blit(self.scoreText, (width + 20, 170))
         self.surface.blit(self.levelText, (width + 20, 190))
         if(self.gameControl.getShape() != None):
-            pygame.draw.rect(self.surface, (102,102,102), (width,0,150,height))
+            
             self.gameControl.getShape().drawNextShape(self.surface,width,height)
             self.gameControl.getShape().drawShape(self.surface)
         
         pygame.display.flip()
-
-
-t = Tetris()
-t.gameControl.update()
-while True:
-    t.action(random.randint(0,4))
-    t.gameControl.update()
-    t.view()
-
-    

@@ -1,5 +1,4 @@
 import pygame
-from pygame.constants import KEYDOWN
 from board import Board
 from shape import Shape
 class GameControl():

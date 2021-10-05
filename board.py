@@ -84,3 +84,24 @@ class Board:
                     pygame.draw.rect(surface, self.Colours[8], pygame.Rect(x,y,20,20),1)
                 index += 1
     
+    def simplifyBoard(self,shape):
+        simpBoard = np.copy(self.board)
+        for col in simpBoard:
+            for row in col:
+                if (row != 0):
+                    simpBoard[col][row] = 8 #8 isnt represented by a colour so can be differentiated form the current shape
+        
+        shapeData = shape.getShapeData()
+        x,y = shape.getPosition()
+        posX = 0
+        posY = 0
+        for row in shapeData:
+            for block in row:
+                px = x + posX
+                py = y + posY
+                if block != 0:
+                    self.simpBoard[py][px] = block
+                posX += 1
+            posX = 0
+            posY +=1
+        return simpBoard
